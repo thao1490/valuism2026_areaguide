@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valuism 2026 – Kyoto Area &amp; Food Guide | Doshisha University</title>
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Lora (Academic Serif) & Inter (Clean UI Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,600;0,700;1,500&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Font Awesome Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
+  <script>
+    // Configure Doshisha Royal Purple (#1E0B3B to #2D1457), Gold (#D4AF37), and Washi Ivory (#FAF8F4)
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            doshisha: {
+              dark: '#1E0B3B',
+              purple: '#2D1457',
+              accent: '#3E1C78',
+              soft: '#F3EEFA',
+              gold: '#D4AF37',
+              goldSoft: '#FCF7E6',
+            },
+            washi: '#FAF8F4',
+          },
+          fontFamily: {
+            serif: ['Lora', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* Hide horizontal scrollbar on mobile category tabs while keeping touch scrolling */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Subtle tactile hover elevation for directory cards */
+    .location-card {
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+    .location-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(45, 20, 87, 0.35);
+    }
+  </style>
+</head>
+<body class="bg-washi text-slate-800 font-sans antialiased selection:bg-doshisha-purple selection:text-white">
+
+  <!-- ===================================================================== -->
+  <!-- 1. CLEAN CONFERENCE HEADER (Deep Doshisha Royal Purple & Gold)       -->
+  <!-- ===================================================================== -->
+  <header class="bg-gradient-to-br from-[#16062C] via-doshisha-dark to-doshisha-purple text-white shadow-md border-b border-doshisha-gold/35">
+    <div class="max-w-5xl mx-auto px-4 py-6 sm:px-6 sm:py-8">
+      <!-- Event Badge & Quick Base Venue Button -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-3.5">
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] sm:text-xs font-bold tracking-wider uppercase bg-white/10 text-amber-200 border border-doshisha-gold/45">
+          <i class="fa-solid fa-university text-doshisha-gold"></i>
+          VALUISM 2026 · KYOTO · DOSHISHA UNIVERSITY
+        </span>
+
+        <a
+          href="https://www.google.com/maps/search/?api=1&query=Doshisha%20University%20Kambaikan%20Kyoto"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-doshisha-gold text-doshisha-dark hover:bg-amber-300 transition shadow-xs"
+        >
+          <i class="fa-solid fa-location-dot"></i>
+          <span>Kambaikan Building</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+        </a>
+      </div>
+
+      <!-- Main Title & Concise Subtitle -->
+      <h1 class="font-serif text-2xl sm:text-4xl font-bold tracking-tight text-white">
+        Kyoto Area &amp; Food Guide
+      </h1>
+      <p class="mt-2 text-sm sm:text-base text-purple-100 max-w-2xl leading-relaxed">
+        Quick-reference convenience stores, lunch spots, cafes, dinner places, and pharmacies around
+        <strong class="text-white font-semibold">Doshisha Business School (Kambaikan Building, Imadegawa)</strong>.
+      </p>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- 2. MAIN CONTENT: SEARCH, CATEGORY TABS & LOCATION CARDS               -->
+  <!-- ===================================================================== -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 pt-5 pb-14">
+
+    <!-- Sticky Search & Category Filter Bar -->
+    <section
+      aria-label="Search and filter locations"
+      class="sticky top-0 z-20 bg-washi/95 backdrop-blur-md pt-2 pb-3 border-b border-stone-200/90 mb-5"
+    >
+      <!-- Live Search Bar with Clear ('×') Button -->
+      <div class="relative mb-3">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-doshisha-purple">
+          <i class="fa-solid fa-magnifying-glass text-sm"></i>
+        </div>
+        <input
+          id="searchInput"
+          type="text"
+          autocomplete="off"
+          placeholder="Search name, Japanese (今出川, 寒梅館), tags (ATM, English, Veg Option), or description..."
+          aria-label="Search locations"
+          class="w-full pl-10 pr-10 py-2.5 bg-white border border-stone-300 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-doshisha-purple focus:border-doshisha-purple shadow-2xs transition"
+        />
+        <button
+          id="clearSearchBtn"
+          type="button"
+          title="Clear search"
+          aria-label="Clear search text"
+          class="hidden absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-doshisha-purple cursor-pointer"
+        >
+          <span class="w-6 h-6 rounded-full bg-stone-100 hover:bg-doshisha-soft flex items-center justify-center text-xs font-bold">
+            &times;
+          </span>
+        </button>
+      </div>
+
+      <!-- Horizontal Category Filter Tabs -->
+      <div
+        id="categoryTabs"
+        role="tablist"
+        aria-label="Location categories"
+        class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-0.5"
+      >
+        <!-- Category tabs rendered dynamically by JavaScript -->
+      </div>
+    </section>
+
+    <!-- Results Count Row -->
+    <div class="flex items-center justify-between gap-2 mb-4 px-0.5">
+      <p id="resultsCounter" class="text-xs sm:text-sm font-semibold text-doshisha-dark">
+        Showing 30 locations
+      </p>
+      <p class="text-[11px] sm:text-xs text-slate-500">
+        Walk times from Kambaikan
+      </p>
+    </div>
+
+    <!-- Directory Cards Grid -->
+    <div
+      id="spotsGrid"
+      class="grid grid-cols-1 md:grid-cols-2 gap-4"
+    >
+      <!-- Location cards rendered dynamically by JavaScript -->
+    </div>
+
+    <!-- Empty State with Reset Filters Button -->
+    <div
+      id="emptyState"
+      class="hidden text-center py-12 px-4 bg-white rounded-2xl border border-stone-200 shadow-2xs"
+    >
+      <div class="w-12 h-12 rounded-full bg-doshisha-soft text-doshisha-purple flex items-center justify-center mx-auto mb-3 text-lg">
+        <i class="fa-solid fa-compass"></i>
+      </div>
+      <h2 class="font-serif text-lg font-bold text-doshisha-dark">
+        No matching spots found
+      </h2>
+      <p class="text-xs sm:text-sm text-slate-500 mt-1 max-w-md mx-auto">
+        Try a different keyword or reset your active search and category filters.
+      </p>
+      <button
+        id="resetFiltersBtn"
+        type="button"
+        class="mt-4 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-doshisha-purple hover:bg-doshisha-accent text-white text-xs sm:text-sm font-semibold transition cursor-pointer shadow-xs"
+      >
+        <i class="fa-solid fa-rotate-left text-xs text-doshisha-gold"></i>
+        <span>Reset filters</span>
+      </button>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- 3. EXPANDABLE ORGANIZER GUIDE (Google Sheets & GitHub Pages)        -->
+    <!-- =================================================================== -->
+    <section
+      aria-labelledby="organizer-guide-heading"
+      class="mt-10 bg-white rounded-2xl border border-stone-200/90 shadow-2xs overflow-hidden"
+    >
+      <button
+        id="organizerAccordionBtn"
+        type="button"
+        aria-expanded="false"
+        aria-controls="organizerAccordionPanel"
+        class="w-full px-5 py-4 flex items-center justify-between gap-3 text-left bg-doshisha-soft/70 hover:bg-doshisha-soft transition cursor-pointer"
+      >
+        <div class="flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-lg bg-doshisha-purple text-white flex items-center justify-center text-sm shrink-0">
+            <i class="fa-brands fa-github text-doshisha-gold"></i>
+          </span>
+          <div>
+            <h2 id="organizer-guide-heading" class="font-serif text-sm sm:text-base font-bold text-doshisha-dark">
+              Organizer Guide: Update from Google Sheets &amp; Publish on GitHub Pages
+            </h2>
+            <p class="text-[11px] sm:text-xs text-slate-600">
+              How to add/edit spots in <code class="font-mono text-doshisha-purple">SPOTS</code> and host this single file for free
+            </p>
+          </div>
+        </div>
+        <i
+          id="organizerAccordionIcon"
+          class="fa-solid fa-chevron-down text-doshisha-purple text-xs transition-transform duration-200 shrink-0"
+        ></i>
+      </button>
+
+      <div
+        id="organizerAccordionPanel"
+        class="hidden px-5 py-5 border-t border-stone-200/80 space-y-4 text-xs sm:text-sm text-slate-600 leading-relaxed"
+      >
+        <div>
+          <h3 class="font-bold text-doshisha-dark mb-1">1. Updating the <code class="font-mono bg-stone-100 px-1.5 py-0.5 rounded text-doshisha-purple">SPOTS</code> Array from Google Sheets</h3>
+          <p class="mb-2">
+            Each row in <strong>Sheet1</strong> maps cleanly to one object inside the <code class="font-mono bg-stone-100 px-1.5 py-0.5 rounded text-doshisha-purple">SPOTS</code> array in <code class="font-mono bg-stone-100 px-1.5 py-0.5 rounded text-doshisha-purple">index.html</code>. Allowed <code class="font-mono">category</code> values are:
+            <code class="font-mono text-doshisha-purple">konbini</code>, <code class="font-mono text-doshisha-purple">lunch</code>, <code class="font-mono text-doshisha-purple">cafe</code>, <code class="font-mono text-doshisha-purple">dinner</code>, and <code class="font-mono text-doshisha-purple">pharmacy</code>.
+          </p>
+          <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-xl text-[11px] font-mono overflow-x-auto leading-relaxed">{
+  id: 31,
+  name: "New Spot Name",
+  jpName: "日本語の店名",
+  category: "lunch",
+  walkMinutes: 4,
+  distanceMeters: 300,
+  tags: ["English", "Card OK"],
+  description: "Concise note for conference attendees.",
+  mapUrl: "https://www.google.com/maps/search/?api=1&query=..."
+}</pre>
+        </div>
+
+        <div>
+          <h3 class="font-bold text-doshisha-dark mb-1">2. Hosting Free on GitHub Pages for Mobile Attendees</h3>
+          <ol class="list-decimal list-inside space-y-1.5 text-xs sm:text-sm">
+            <li>Create a <strong>Public</strong> repository on GitHub (for example, <code class="font-mono bg-stone-100 px-1.5 py-0.5 rounded">valuism2026-food-guide</code>).</li>
+            <li>Upload or paste this file as <code class="font-mono bg-stone-100 px-1.5 py-0.5 rounded">index.html</code> into the root folder and commit changes.</li>
+            <li>Go to <strong>Settings &rarr; Pages</strong>, select <strong>Deploy from a branch</strong>, choose <code class="font-mono bg-stone-100 px-1.5 py-0.5 rounded">main</code> (<code class="font-mono">/root</code>), and click <strong>Save</strong>.</li>
+            <li>Once live at <code class="font-mono bg-stone-100 px-1.5 py-0.5 rounded">https://&lt;username&gt;.github.io/&lt;repo&gt;/</code>, generate a QR code for conference badges and slides to test on iOS and Android phones.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- 4. FOOTER                                                             -->
+  <!-- ===================================================================== -->
+  <footer class="bg-doshisha-dark text-purple-100 border-t border-doshisha-gold/30 py-6 px-4 sm:px-6">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left text-xs">
+      <p class="font-serif font-semibold text-white">
+        Valuism 2026 &middot; Doshisha University (Imadegawa, Kyoto)
+      </p>
+      <p class="text-purple-200/80">
+        Base Venue: Kambaikan Building &middot; Tap any card&rsquo;s Google Maps button for walking directions
+      </p>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- 5. DATA (30 LOCATIONS) & REAL-TIME FILTERING SCRIPT                  -->
+  <!-- ===================================================================== -->
+  <script>
+    /**
+     * Exact 30 locations from Google Sheet:
+     * 'Valuism 2026 - Kyoto Area & Food Map Data (Kambaikan / Imadegawa)' (Sheet1)
+     */
+    const SPOTS = [
+      {
+        id: 1,
+        name: "7-Eleven Kyoto Imadegawa Karasuma",
+        jpName: "セブン-イレブン 京都今出川烏丸店",
+        category: "konbini",
+        walkMinutes: 3,
+        distanceMeters: 220,
+        tags: ["ATM", "24/7", "Card OK"],
+        description: "Closest 7-Bank ATM accepting international Visa/Mastercard/Plus cards. Ideal for quick onigiri, sandwiches, and umbrellas.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=7-Eleven%20Kyoto%20Imadegawa%20Karasuma"
+      },
+      {
+        id: 2,
+        name: "Lawson Kamigyo Ward Office Mae",
+        jpName: "ローソン 上京区総合庁舎前店",
+        category: "konbini",
+        walkMinutes: 3,
+        distanceMeters: 240,
+        tags: ["ATM", "24/7", "Card OK"],
+        description: "Right across from Kamigyoku Sogochosha-mae (Kamigyo Ward Office); super convenient for coffee, snacks, and international ATM access.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Lawson%20Kamigyo%20Ward%20Office%20Kyoto"
+      },
+      {
+        id: 3,
+        name: "FamilyMart Karasuma Imadegawa",
+        jpName: "ファミリーマート 烏丸今出川店",
+        category: "konbini",
+        walkMinutes: 4,
+        distanceMeters: 300,
+        tags: ["ATM", "24/7", "Card OK"],
+        description: "Just south of the Karasuma-Imadegawa intersection; convenient for drinks, pastries, and topping up Suica/ICOCA transit cards.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=FamilyMart%20Karasuma%20Imadegawa%20Kyoto"
+      },
+      {
+        id: 4,
+        name: "Lawson Imadegawa Station East",
+        jpName: "ローソン 今出川駅前店",
+        category: "konbini",
+        walkMinutes: 5,
+        distanceMeters: 380,
+        tags: ["ATM", "24/7", "Card OK"],
+        description: "Right beside Subway Imadegawa Station exit; stocks hot snacks, stationery, and everyday travel essentials.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Lawson%20Imadegawa%20Station%20Kyoto"
+      },
+      {
+        id: 5,
+        name: "7-Eleven Kyoto Teramachi Imadegawa",
+        jpName: "セブン-イレブン 京都寺町今出川店",
+        category: "konbini",
+        walkMinutes: 9,
+        distanceMeters: 720,
+        tags: ["ATM", "24/7", "Card OK"],
+        description: "Helpful convenience store & international ATM if walking east toward Teramachi Street or Demachiyanagi.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=7-Eleven%20Teramachi%20Imadegawa%20Kyoto"
+      },
+      {
+        id: 6,
+        name: "Hamac de Paradis (Kambaikan On-Campus)",
+        jpName: "アマーク・ド・パラディ 寒梅館",
+        category: "lunch",
+        walkMinutes: 1,
+        distanceMeters: 30,
+        tags: ["On-Campus", "Card OK", "Group"],
+        description: "Located on the 1st floor of the Kambaikan conference building itself. Affordable pasta, curry, and daily lunch sets.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Hamac%20de%20Paradis%20Kambaikan%20Doshisha"
+      },
+      {
+        id: 7,
+        name: "Doshisha Ryoshinkan Cafeteria / Lounge",
+        jpName: "同志社大学 良心館ラウンジ・食堂",
+        category: "lunch",
+        walkMinutes: 4,
+        distanceMeters: 300,
+        tags: ["On-Campus", "Budget", "Fast"],
+        description: "Spacious university dining hall right across Imadegawa-dori inside Ryoshinkan; great budget Japanese set meals and curry during weekday lunch hours.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Doshisha%20University%20Ryoshinkan%20Kyoto"
+      },
+      {
+        id: 8,
+        name: "CoCo Ichibanya Karasuma Imadegawa",
+        jpName: "カレーハウスCoCo壱番屋 烏丸今出川店",
+        category: "lunch",
+        walkMinutes: 4,
+        distanceMeters: 310,
+        tags: ["English", "Veg Option", "Card OK"],
+        description: "Reliable Japanese curry house with English tablet ordering, customizable spice levels, and dedicated vegetarian curry.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=CoCo%20Ichibanya%20Karasuma%20Imadegawa%20Kyoto"
+      },
+      {
+        id: 9,
+        name: "Nakau Karasuma Imadegawa",
+        jpName: "なか卯 烏丸今出川店",
+        category: "lunch",
+        walkMinutes: 4,
+        distanceMeters: 310,
+        tags: ["English", "Fast", "Card OK"],
+        description: "Quick, reliable Japanese rice bowls (oyakodon) and warm udon noodles with English ticket machine ordering—great for tight lunch breaks.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Nakau%20Karasuma%20Imadegawa%20Kyoto"
+      },
+      {
+        id: 10,
+        name: "Sukiya Karasuma Imadegawa",
+        jpName: "すき家 烏丸今出川店",
+        category: "lunch",
+        walkMinutes: 4,
+        distanceMeters: 330,
+        tags: ["English", "Budget", "Fast"],
+        description: "Fast, budget-friendly beef bowls (gyudon), salmon breakfast/lunch sets, and curry with multilingual touchscreen ordering.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Sukiya%20Karasuma%20Imadegawa%20Kyoto"
+      },
+      {
+        id: 11,
+        name: "Matsuya Imadegawa",
+        jpName: "松屋 今出川店",
+        category: "lunch",
+        walkMinutes: 5,
+        distanceMeters: 390,
+        tags: ["English", "Budget", "Fast"],
+        description: "Budget-friendly beef bowls, curry, and grilled set meals with multilingual kiosk ordering and fast turnover.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Matsuya%20Imadegawa%20Kyoto"
+      },
+      {
+        id: 12,
+        name: "Saien Kyoto",
+        jpName: "菜園・今出川周辺定食",
+        category: "lunch",
+        walkMinutes: 5,
+        distanceMeters: 400,
+        tags: ["Local", "Veg Option"],
+        description: "Homestyle Japanese teishoku (set meals) with balanced vegetable sides, miso soup, and rice near Kamigyo Ward Office.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Teishoku%20restaurant%20near%20Kamigyo%20Ward%20Office%20Kyoto"
+      },
+      {
+        id: 13,
+        name: "Omen Nippon (Kyoto Udon Specialty)",
+        jpName: "おめん 銀閣寺本店 / 今出川周辺うどん",
+        category: "lunch",
+        walkMinutes: 6,
+        distanceMeters: 480,
+        tags: ["Local", "Veg Option"],
+        description: "Kyoto-style dipping udon served with seasonal vegetables, sesame, and ginger—warming and gentle for a December lunch.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Udon%20restaurant%20near%20Imadegawa%20Station%20Kyoto"
+      },
+      {
+        id: 14,
+        name: "Le Petit Mec Imadegawa",
+        jpName: "ル・プチメック 今出川店",
+        category: "lunch",
+        walkMinutes: 7,
+        distanceMeters: 560,
+        tags: ["Local", "Fast"],
+        description: "Iconic Kyoto French bakery ('Red Petit Mec') famous for crusty baguette sandwiches and pastries. (Typically open Fri–Sun).",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Le%20Petit%20Mec%20Imadegawa%20Kyoto"
+      },
+      {
+        id: 15,
+        name: "Falafel Garden Kyoto (Demachiyanagi)",
+        jpName: "ファラフェルガーデン",
+        category: "lunch",
+        walkMinutes: 12,
+        distanceMeters: 920,
+        tags: ["Veg Option", "English", "Card OK"],
+        description: "Popular Middle Eastern eatery near Kamo River offering falafel pita plates, hummus, and vegan/halal-friendly options.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Falafel%20Garden%20Kyoto"
+      },
+      {
+        id: 16,
+        name: "Doutor Coffee Shop Karasuma Imadegawa",
+        jpName: "ドトールコーヒーショップ 烏丸今出川店",
+        category: "cafe",
+        walkMinutes: 4,
+        distanceMeters: 310,
+        tags: ["Wi-Fi", "Fast", "Card OK"],
+        description: "Casual, affordable Japanese coffee chain right at the main intersection—ideal for a quick espresso, toast sandwich, and email check.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Doutor%20Coffee%20Karasuma%20Imadegawa%20Kyoto"
+      },
+      {
+        id: 17,
+        name: "Cafe Barbera / Kamigyo Specialty Coffee",
+        jpName: "上京区総合庁舎周辺 カフェ",
+        category: "cafe",
+        walkMinutes: 4,
+        distanceMeters: 320,
+        tags: ["Local", "Card OK"],
+        description: "Cozy neighborhood cafes tucked along Shinmachi-dori and Muromachi-dori near Kamigyoku Sogochosha-mae—peaceful spots away from main road crowds.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Cafe%20near%20Kamigyo%20Ward%20Office%20Kyoto"
+      },
+      {
+        id: 18,
+        name: "Starbucks Coffee Kyoto Karasuma Imadegawa",
+        jpName: "スターバックス コーヒー 京都烏丸今出川店",
+        category: "cafe",
+        walkMinutes: 4,
+        distanceMeters: 320,
+        tags: ["Wi-Fi", "Outlets", "Card OK"],
+        description: "Familiar workspace right at the main intersection with reliable Wi-Fi for reviewing presentation slides.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Kyoto%20Karasuma%20Imadegawa"
+      },
+      {
+        id: 19,
+        name: "Evian Coffee Shop (Classic Kissaten)",
+        jpName: "エビアン珈琲店",
+        category: "cafe",
+        walkMinutes: 5,
+        distanceMeters: 390,
+        tags: ["Local", "Cash Only"],
+        description: "Long-established Kyoto retro coffeehouse near Doshisha serving siphon coffee, thick toast sets, and quiet academic ambiance.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Evian%20Coffee%20Imadegawa%20Kyoto"
+      },
+      {
+        id: 20,
+        name: "Prunelle / Imadegawa Bakery & Cafe",
+        jpName: "プリュネル・今出川ベーカリー",
+        category: "cafe",
+        walkMinutes: 5,
+        distanceMeters: 410,
+        tags: ["Local", "Fast"],
+        description: "Beloved local Kyoto bakery near Imadegawa-Muromachi serving freshly baked pastries, sandwiches, and coffee.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Bakery%20near%20Imadegawa%20Muromachi%20Kyoto"
+      },
+      {
+        id: 21,
+        name: "Komeda's Coffee Karasuma Imadegawa",
+        jpName: "コメダ珈琲店 烏丸今出川店",
+        category: "cafe",
+        walkMinutes: 6,
+        distanceMeters: 470,
+        tags: ["Wi-Fi", "Outlets", "Card OK"],
+        description: "Comfortable cushioned booths ideal for 1-on-1 academic discussions, laptop work, and hearty katsu sandwiches.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Komeda%20Coffee%20Karasuma%20Imadegawa%20Kyoto"
+      },
+      {
+        id: 22,
+        name: "Sarasa Nishijin (Historic Bathhouse Cafe)",
+        jpName: "さらさ西陣",
+        category: "cafe",
+        walkMinutes: 13,
+        distanceMeters: 980,
+        tags: ["Local", "Group"],
+        description: "Renovated 1930s traditional sento (bathhouse) covered in colorful majolica tiles—great for a memorable afternoon coffee or dinner.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Sarasa%20Nishijin%20Kyoto"
+      },
+      {
+        id: 23,
+        name: "Torikizoku Imadegawa",
+        jpName: "鳥貴族 今出川店",
+        category: "dinner",
+        walkMinutes: 4,
+        distanceMeters: 310,
+        tags: ["English", "Group", "Card OK"],
+        description: "Lively, budget-friendly grilled chicken skewer (yakitori) izakaya with flat-rate pricing and easy English touchscreen ordering.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Torikizoku%20Imadegawa%20Kyoto"
+      },
+      {
+        id: 24,
+        name: "Gyoza no Ohsho Imadegawa",
+        jpName: "餃子の王将 今出川店",
+        category: "dinner",
+        walkMinutes: 5,
+        distanceMeters: 380,
+        tags: ["Budget", "Fast", "Card OK"],
+        description: "Kyoto-born Chinese-Japanese casual restaurant famous for pan-fried gyoza, fried rice, and hearty stir-fries.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Gyoza%20no%20Ohsho%20Imadegawa%20Kyoto"
+      },
+      {
+        id: 25,
+        name: "Kappa Sushi / Casual Dining Imadegawa",
+        jpName: "今出川周辺 回転寿司・和食",
+        category: "dinner",
+        walkMinutes: 6,
+        distanceMeters: 490,
+        tags: ["English", "Group", "Card OK"],
+        description: "Easy touchscreen-order sushi and Japanese casual dining suitable for international attendees wanting an approachable dinner.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Sushi%20near%20Imadegawa%20Station%20Kyoto"
+      },
+      {
+        id: 26,
+        name: "Menya Gokkei / Imadegawa Ramen Strip",
+        jpName: "今出川 ラーメンストリート",
+        category: "dinner",
+        walkMinutes: 8,
+        distanceMeters: 640,
+        tags: ["Local", "Cash Only"],
+        description: "Imadegawa is famous among Kyoto students for rich chicken-paitan and tonkotsu ramen shops along Imadegawa-dori.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Ramen%20Imadegawa-dori%20Kamigyo%20Ward%20Kyoto"
+      },
+      {
+        id: 27,
+        name: "Demachiyanagi Riverside Izakaya & Obanzai",
+        jpName: "出町柳 居酒屋・おばんざい処",
+        category: "dinner",
+        walkMinutes: 12,
+        distanceMeters: 940,
+        tags: ["Local", "Group"],
+        description: "A scenic 12-minute walk east to the Kamo River delta (Demachiyanagi), packed with cozy local izakayas and sake bars.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Izakaya%20near%20Demachiyanagi%20Station%20Kyoto"
+      },
+      {
+        id: 28,
+        name: "Kamishichiken Traditional Dining District",
+        jpName: "上七軒 食事処・京料理",
+        category: "dinner",
+        walkMinutes: 14,
+        distanceMeters: 1000,
+        tags: ["Local", "Group"],
+        description: "Kyoto's oldest hanamachi district (~1km west), offering atmospheric wooden townhouses, soba, and refined Kyoto dinner courses.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Kamishichiken%20Kyoto%20restaurants"
+      },
+      {
+        id: 29,
+        name: "Welcia Kyoto Imadegawa",
+        jpName: "ウエルシア 京都今出川店",
+        category: "pharmacy",
+        walkMinutes: 3,
+        distanceMeters: 250,
+        tags: ["Medicine", "Card OK"],
+        description: "Located right near Kamigyo Ward Office (Kamigyoku Sogochosha-mae), just 3 mins from Kambaikan. Best spot for cold medicine, masks, toiletries, snacks, and disposable heat packs (Kairo).",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Welcia%20Kyoto%20Imadegawa"
+      },
+      {
+        id: 30,
+        name: "Yutaka Pharmacy / Kamigyo Drugstore Area",
+        jpName: "ドラッグユタカ・今出川周辺薬局",
+        category: "pharmacy",
+        walkMinutes: 6,
+        distanceMeters: 480,
+        tags: ["Medicine", "Tax-Free", "Card OK"],
+        description: "Convenient drugstore along Imadegawa-dori carrying OTC pain relievers, throat lozenges, cosmetics, and daily travel items.",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Drug%20Yutaka%20Imadegawa%20Kyoto"
+      }
+    ];
+
+    // Category definitions matching exact filter tab requirements
+    const CATEGORIES = [
+      { id: "all", label: "All", icon: "fa-layer-group" },
+      { id: "konbini", label: "Konbini & ATM", icon: "fa-store" },
+      { id: "lunch", label: "Quick Lunch", icon: "fa-bowl-rice" },
+      { id: "cafe", label: "Cafe & Work", icon: "fa-mug-hot" },
+      { id: "dinner", label: "Dinner & Izakaya", icon: "fa-utensils" },
+      { id: "pharmacy", label: "Pharmacy", icon: "fa-kit-medical" }
+    ];
+
+    // Badge styling per category
+    const CATEGORY_META = {
+      konbini: {
+        label: "Konbini & ATM",
+        badgeClass: "bg-emerald-50 text-emerald-900 border-emerald-200"
+      },
+      lunch: {
+        label: "Quick Lunch",
+        badgeClass: "bg-amber-50 text-amber-900 border-amber-200"
+      },
+      cafe: {
+        label: "Cafe & Work",
+        badgeClass: "bg-doshisha-soft text-doshisha-purple border-purple-200"
+      },
+      dinner: {
+        label: "Dinner & Izakaya",
+        badgeClass: "bg-rose-50 text-rose-900 border-rose-200"
+      },
+      pharmacy: {
+        label: "Pharmacy",
+        badgeClass: "bg-sky-50 text-sky-900 border-sky-200"
+      }
+    };
+
+    // State
+    let selectedCategory = "all";
+    let searchTerm = "";
+
+    // DOM Elements
+    const searchInput = document.getElementById("searchInput");
+    const clearSearchBtn = document.getElementById("clearSearchBtn");
+    const categoryTabs = document.getElementById("categoryTabs");
+    const resultsCounter = document.getElementById("resultsCounter");
+    const spotsGrid = document.getElementById("spotsGrid");
+    const emptyState = document.getElementById("emptyState");
+    const resetFiltersBtn = document.getElementById("resetFiltersBtn");
+    const organizerAccordionBtn = document.getElementById("organizerAccordionBtn");
+    const organizerAccordionPanel = document.getElementById("organizerAccordionPanel");
+    const organizerAccordionIcon = document.getElementById("organizerAccordionIcon");
+
+    /**
+     * Check whether a spot matches the current live search term across
+     * English Name, Japanese Name, Tags, and Description.
+     */
+    function matchesSearch(spot, rawQuery) {
+      const q = rawQuery.trim().toLowerCase();
+      if (!q) return true;
+      const hay = [
+        spot.name,
+        spot.jpName,
+        ...(spot.tags || []),
+        spot.description
+      ]
+        .join(" ")
+        .toLowerCase();
+      return hay.includes(q);
+    }
+
+    /**
+     * Render horizontal category filter tabs with live item counts.
+     */
+    function renderCategoryTabs() {
+      categoryTabs.innerHTML = CATEGORIES.map((cat) => {
+        const count = SPOTS.filter((spot) => {
+          const catMatch = cat.id === "all" || spot.category === cat.id;
+          return catMatch && matchesSearch(spot, searchTerm);
+        }).length;
+
+        const isActive = selectedCategory === cat.id;
+        const activeStyle =
+          "bg-doshisha-purple text-white border-doshisha-purple shadow-2xs";
+        const inactiveStyle =
+          "bg-white text-slate-700 border-stone-200 hover:border-doshisha-purple/50 hover:text-doshisha-purple";
+
+        return `
+          <button
+            type="button"
+            role="tab"
+            aria-selected="${isActive}"
+            data-category="${cat.id}"
+            class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap border transition cursor-pointer ${
+              isActive ? activeStyle : inactiveStyle
+            }"
+          >
+            <i class="fa-solid ${cat.icon} text-[11px] ${isActive ? "text-doshisha-gold" : ""}"></i>
+            <span>${cat.label}</span>
+            <span class="px-1.5 py-0.2 rounded-full text-[10px] font-bold ${
+              isActive ? "bg-white/20 text-white" : "bg-stone-100 text-slate-600"
+            }">${count}</span>
+          </button>
+        `;
+      }).join("");
+
+      categoryTabs.querySelectorAll("button[data-category]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          selectedCategory = btn.getAttribute("data-category");
+          renderAll();
+        });
+      });
+    }
+
+    /**
+     * Render filtered location cards or show empty state.
+     */
+    function renderSpots() {
+      const filtered = SPOTS.filter((spot) => {
+        const catMatch = selectedCategory === "all" || spot.category === selectedCategory;
+        return catMatch && matchesSearch(spot, searchTerm);
+      });
+
+      resultsCounter.textContent =
+        filtered.length === SPOTS.length
+          ? `Showing all ${SPOTS.length} locations`
+          : `Showing ${filtered.length} of ${SPOTS.length} locations`;
+
+      if (filtered.length === 0) {
+        spotsGrid.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        return;
+      }
+
+      emptyState.classList.add("hidden");
+
+      spotsGrid.innerHTML = filtered
+        .map((spot) => {
+          const meta = CATEGORY_META[spot.category] || {
+            label: spot.category,
+            badgeClass: "bg-stone-100 text-slate-700 border-stone-200"
+          };
+
+          // Enforce max 3 concise tag pills per card
+          const visibleTags = (spot.tags || []).slice(0, 3);
+          const tagPillsHtml = visibleTags
+            .map((tag) => {
+              const isCashOnly = tag === "Cash Only";
+              const isKeyHighlight = ["ATM", "English", "Veg Option", "On-Campus"].includes(tag);
+              const pillClass = isCashOnly
+                ? "bg-amber-100 text-amber-950 border-amber-300 font-semibold"
+                : isKeyHighlight
+                ? "bg-doshisha-soft text-doshisha-purple border-purple-200 font-semibold"
+                : "bg-stone-100 text-slate-700 border-stone-200";
+              return `<span class="inline-block px-2 py-0.5 rounded-md text-[11px] border ${pillClass}">${tag}</span>`;
+            })
+            .join("");
+
+          return `
+            <article class="location-card bg-white rounded-2xl p-4 sm:p-5 border border-stone-200/90 shadow-2xs flex flex-col justify-between">
+              <div>
+                <!-- Top Metadata: Category Badge + Walk Time & Distance -->
+                <div class="flex items-center justify-between gap-2 mb-2.5">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${meta.badgeClass}">
+                    ${meta.label}
+                  </span>
+                  <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-doshisha-dark bg-doshisha-soft/80 px-2.5 py-0.5 rounded-full border border-purple-200/70">
+                    <i class="fa-solid fa-person-walking text-doshisha-purple"></i>
+                    <span>${spot.walkMinutes} min &middot; ${spot.distanceMeters}m</span>
+                  </span>
+                </div>
+
+                <!-- English Name & Japanese Name -->
+                <h3 class="font-serif text-base sm:text-lg font-bold text-slate-900 leading-snug">
+                  ${spot.name}
+                </h3>
+                <p class="text-xs text-slate-500 font-medium mt-0.5 mb-2.5">
+                  ${spot.jpName}
+                </p>
+
+                <!-- Concise Description -->
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                  ${spot.description}
+                </p>
+              </div>
+
+              <!-- Bottom Row: Standardized Tags & Google Maps Button -->
+              <div class="pt-3 border-t border-stone-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex flex-wrap gap-1.5">
+                  ${tagPillsHtml}
+                </div>
+
+                <a
+                  href="${spot.mapUrl}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-doshisha-purple hover:bg-doshisha-accent text-white text-xs font-semibold whitespace-nowrap transition shadow-2xs shrink-0"
+                >
+                  <i class="fa-solid fa-map-pin text-doshisha-gold"></i>
+                  <span>Google Maps</span>
+                  <span aria-hidden="true">&#8599;</span>
+                </a>
+              </div>
+            </article>
+          `;
+        })
+        .join("");
+    }
+
+    function renderAll() {
+      renderCategoryTabs();
+      renderSpots();
+    }
+
+    // Live search listeners
+    searchInput.addEventListener("input", (e) => {
+      searchTerm = e.target.value;
+      clearSearchBtn.classList.toggle("hidden", searchTerm.length === 0);
+      renderAll();
+    });
+
+    clearSearchBtn.addEventListener("click", () => {
+      searchTerm = "";
+      searchInput.value = "";
+      clearSearchBtn.classList.add("hidden");
+      searchInput.focus();
+      renderAll();
+    });
+
+    // Reset all filters button in empty state
+    resetFiltersBtn.addEventListener("click", () => {
+      selectedCategory = "all";
+      searchTerm = "";
+      searchInput.value = "";
+      clearSearchBtn.classList.add("hidden");
+      renderAll();
+    });
+
+    // Expandable Organizer Guide accordion
+    organizerAccordionBtn.addEventListener("click", () => {
+      const isExpanded = organizerAccordionBtn.getAttribute("aria-expanded") === "true";
+      const nextState = !isExpanded;
+      organizerAccordionBtn.setAttribute("aria-expanded", String(nextState));
+      organizerAccordionPanel.classList.toggle("hidden", !nextState);
+      organizerAccordionIcon.style.transform = nextState ? "rotate(180deg)" : "rotate(0deg)";
+    });
+
+    // Initial render on load
+    renderAll();
+  </script>
+</body>
+</html>
